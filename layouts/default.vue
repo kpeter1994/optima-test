@@ -1,8 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div>
-    Layout: default
+  <div class="bg-slate-900  bg-[url('/image/lines.svg')] min-h-screen">
     <slot />
   </div>
 </template>
