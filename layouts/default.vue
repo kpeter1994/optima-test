@@ -1,9 +1,14 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="bg-slate-900  bg-[url('/image/lines.svg')] min-h-screen">
+  <div class="bg-radial min-h-screen">
     <slot />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.bg-radial{
+  background: radial-gradient(circle, #03453E, #021D1A);
+
+}
+</style>
