@@ -11,9 +11,9 @@ query Questions{
         ... on ComponentFormScale{
           id
           title
-          category
+          category 
           rating{low medium high}
-          question{id title}
+          question{id title subCategory value}
         }
       }
     \t}

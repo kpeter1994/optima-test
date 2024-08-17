@@ -9,6 +9,7 @@ const props = defineProps<{
   question: {
     id: number;
     title: string;
+    value: number;
   }
 }>();
 

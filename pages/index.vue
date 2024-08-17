@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import {getQuestionsQuery} from "~/graphql/getQuestionsQuery";
 import ScaleBlock from "~/components/form/ScaleBlock.vue";
-
 const {data} = await useAsyncQuery(getQuestionsQuery)
+
+
+const formStore = useFormStore()
 
 const componentsMap: { [key: string]: any }= {
   "ComponentFormScale" : ScaleBlock
@@ -20,7 +22,9 @@ if (data.value) {
 const getComponent = (typename: string) => componentsMap[typename] || null
 
 
-console.log(data.value)
+const currentBlock = ref(0)
+
+
 
 </script>
 
@@ -37,13 +41,22 @@ console.log(data.value)
       </div>
       <h2 class="text-2xl lg:text-4xl text-center font-extrabold text-white mb-2 tracking-wider">{{data.test.data.attributes.title}}</h2>
       <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, minima.</p>
+
     </div>
     <div class="max-w-2xl mx-auto bg-white lg:rounded-3xl p-3 lg:p-8 mt-8 lg:text-lg">
       <p class="font-semibold mb-8 text-lg lg:text-2xl text-blue-800">Jelölje be a skálán mennyire ért egy az alábbi állításokkal</p>
 
-      <div v-for="element in formBlocks" :key="element.id">
-        <component :is="getComponent(element.__typename)" v-bind="element" />
+
+        <component :is="getComponent(formBlocks[formStore.currentBlock].__typename)"
+                   :currentBlock="formStore.currentBlock"
+                   v-bind="formBlocks[formStore.currentBlock]" />
+
+      <div class="flex justify-between">
+        <button @click="formStore.previousBlock" class="bg-blue-800 text-white px-4 py-2 rounded-lg">Vissza</button>
+        <button @click="formStore.nextBlock" class="bg-blue-800 text-white px-4 py-2 rounded-lg">Következő</button>
+
       </div>
+
 
 
 

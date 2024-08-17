@@ -3,26 +3,26 @@
 import ScaleComponent from "~/components/form/ScaleComponent.vue";
 
 const props = defineProps<{
+  currentBlock: number
   title: string;
   category: string;
   subcategory: string;
   question: {
     id: number;
     title: string;
+    value: number | null;
+  }[];
+}>();
+
+
+const answers = ref(props.question)
+
+watch(() => props.currentBlock, (newVal) => {
+  const currentQuestion = answers.value.find(q => q.id === props.question[newVal].id);
+  if (currentQuestion) {
+    currentQuestion.value = props.question[newVal].value;
   }
-}>()
-
-
-const answers = ref(
-    {
-      ...props.question.map(q => ({
-        ...q,
-        value: null,
-      })),
-      active: 1
-    }
-)
-
+});
 
 watch(() => answers.value.active, (newVal) => {
   const questionElement = document.getElementById(`question-${newVal}`);
