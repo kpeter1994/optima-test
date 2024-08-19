@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-
 import ScaleComponent from "~/components/form/ScaleComponent.vue";
 
+
 const props = defineProps<{
-  currentBlock: number
   title: string;
   category: string;
   subcategory: string;
@@ -14,10 +13,12 @@ const props = defineProps<{
   }[];
 }>();
 
+const form = useFormStore();
+
 
 const answers = ref(props.question)
 
-watch(() => props.currentBlock, (newVal) => {
+watch(() => form.currentBlock, (newVal) => {
   const currentQuestion = answers.value.find(q => q.id === props.question[newVal].id);
   if (currentQuestion) {
     currentQuestion.value = props.question[newVal].value;

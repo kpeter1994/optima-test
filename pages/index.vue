@@ -1,28 +1,33 @@
 <script lang="ts" setup>
 import {getQuestionsQuery} from "~/graphql/getQuestionsQuery";
 import ScaleBlock from "~/components/form/ScaleBlock.vue";
+
+const formStore = useFormStore()
 const {data} = await useAsyncQuery(getQuestionsQuery)
 
 
-const formStore = useFormStore()
+if (data.value) {
+  formStore.setForm(data.value.test.data.attributes.element)
+}
+
+console.log(formStore.form)
+console.log(data.value.test.data.attributes.element)
 
 const componentsMap: { [key: string]: any }= {
   "ComponentFormScale" : ScaleBlock
 }
 
+
 const formBlocks = ref<any>([])
 
 if (data.value) {
-  formBlocks.value = data.value.test.data.attributes.element.map((block: any) => ({
+  formBlocks.value = formStore.form.map((block: any) => ({
     ...block,
     __typename: block.__typename,
   }))
 }
 
 const getComponent = (typename: string) => componentsMap[typename] || null
-
-
-const currentBlock = ref(0)
 
 
 
@@ -43,7 +48,7 @@ const currentBlock = ref(0)
       <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, minima.</p>
 
     </div>
-    <div class="max-w-2xl mx-auto bg-white lg:rounded-3xl p-3 lg:p-8 mt-8 lg:text-lg">
+    <div class="max-w-3xl mx-auto bg-white lg:rounded-3xl p-3 lg:p-20 mt-8 lg:text-lg">
       <p class="font-semibold mb-8 text-lg lg:text-2xl text-blue-800">Jelölje be a skálán mennyire ért egy az alábbi állításokkal</p>
 
 
@@ -52,7 +57,7 @@ const currentBlock = ref(0)
                    v-bind="formBlocks[formStore.currentBlock]" />
 
       <div class="flex justify-between">
-        <button @click="formStore.previousBlock" class="bg-blue-800 text-white px-4 py-2 rounded-lg">Vissza</button>
+        <button v-if="formStore.currentBlock > 0" @click="formStore.previousBlock" class="bg-blue-800 text-white px-4 py-2 rounded-lg">Vissza</button>
         <button @click="formStore.nextBlock" class="bg-blue-800 text-white px-4 py-2 rounded-lg">Következő</button>
 
       </div>
