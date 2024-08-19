@@ -1,22 +1,31 @@
 <script setup lang="ts">
 const props = defineProps<{
+  modelValue: number | null;
   size: string;
   color: string;
   value: number;
-  name: number;
+  name: number | string;
 }>();
+
+const emit = defineEmits(['update:modelValue']);
+
+// Az érték változásának kezelése
+const updateValue = (newValue: number) => {
+  emit('update:modelValue', newValue);
+};
 </script>
 
 <template>
-
-    <label class="custom-radio " :style="{ '--size': size, '--color': color }">
-      <input type="radio" :name="name" :value="value">
-      <span class="checkmark relative">
-         <i class="pi pi-check pi-check-icon"></i>
-      </span>
-
-    </label>
-
+  <label class="custom-radio" :style="{ '--size': size, '--color': color }">
+    <input type="radio"
+           :name="name"
+           :value="value"
+           :checked="modelValue === value"
+           @input="updateValue(value)">
+    <span class="checkmark relative">
+      <i class="pi pi-check pi-check-icon"></i>
+    </span>
+  </label>
 </template>
 
 <style scoped>
@@ -51,6 +60,7 @@ const props = defineProps<{
 
 .custom-radio .checkmark:hover {
   background-color: var(--color);
+  cursor: pointer;
 }
 
 .custom-radio input[type="radio"]:checked + .checkmark {
@@ -73,7 +83,4 @@ const props = defineProps<{
     height: calc(var(--size) * 0.9);
   }
 }
-
-
-
 </style>

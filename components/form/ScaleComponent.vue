@@ -3,7 +3,7 @@ import RadioButton from "~/components/form/RadioButton.vue";
 
 const props = defineProps<{
   active: {
-    type: Boolean;
+    type: Boolean | object;
     default: false;
   };
   question: {
@@ -15,11 +15,24 @@ const props = defineProps<{
 }>();
 
 const answers = defineModel()
+const formStore = useFormStore();
 
-const setAnswer = ( index: number, value: number) => {
-  answers.value[index - 1].value = value;
-  answers.value.active = Number(index) + 1;
+const setAnswer = ( questionId: number, value: number) => {
+  const currentBlock = formStore.form[formStore.currentBlock];
+
+  const question = currentBlock.question.find(q => q.id === questionId);
+
+  if (question) {
+    question.value = value;
+    formStore.setQuestion(questionId);
+  }
+  formStore.setQuestion(Number(questionId) + 1);
 }
+
+// const setAnswer = ( index: number, value: number) => {
+//   answers.value[index - 1].value = value;
+//   answers.value.active = Number(index) + 1;
+// }
 
 </script>
 
@@ -31,13 +44,13 @@ const setAnswer = ( index: number, value: number) => {
 
       <div class="flex justify-between gap-0.5 md:gap-1.5 items-center ">
 
-        <RadioButton @click="setAnswer(question.id, 1)"  :name="question.id" :value="1" size="60px" color="#0F98A8"/>
-        <RadioButton @click="setAnswer(question.id, 2)"  :name="question.id" :value="2" size="55px" color="#0F98A8"/>
-        <RadioButton @click="setAnswer(question.id, 3)"  :name="question.id" :value="3" size="50px" color="#0F98A8"/>
-        <RadioButton @click="setAnswer(question.id, 4)"  :name="question.id" :value="4" size="45px" color="#0F98A8"/>
-        <RadioButton @click="setAnswer(question.id, 5)"  :name="question.id" :value="5" size="50px" color="#0F98A8"/>
-        <RadioButton @click="setAnswer(question.id, 6)"  :name="question.id" :value="6" size="55px" color="#0F98A8"/>
-        <RadioButton @click="setAnswer(question.id, 7)"  :name="question.id" :value="7" size="60px" color="#0F98A8"/>
+        <RadioButton @click="setAnswer(question.id, 1)" v-model="question.value"  :name="question.id" :value="1" size="60px" color="#0F98A8"/>
+        <RadioButton @click="setAnswer(question.id, 2)" v-model="question.value"  :name="question.id" :value="2" size="55px" color="#0F98A8"/>
+        <RadioButton @click="setAnswer(question.id, 3)" v-model="question.value"  :name="question.id" :value="3" size="50px" color="#0F98A8"/>
+        <RadioButton @click="setAnswer(question.id, 4)" v-model="question.value"  :name="question.id" :value="4" size="45px" color="#0F98A8"/>
+        <RadioButton @click="setAnswer(question.id, 5)" v-model="question.value"  :name="question.id" :value="5" size="50px" color="#0F98A8"/>
+        <RadioButton @click="setAnswer(question.id, 6)" v-model="question.value"  :name="question.id" :value="6" size="55px" color="#0F98A8"/>
+        <RadioButton @click="setAnswer(question.id, 7)" v-model="question.value"  :name="question.id" :value="7" size="60px" color="#0F98A8"/>
 
       </div>
 

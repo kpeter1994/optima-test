@@ -13,19 +13,21 @@ const props = defineProps<{
   }[];
 }>();
 
-const form = useFormStore();
+const formStore = useFormStore();
 
 
 const answers = ref(props.question)
 
-watch(() => form.currentBlock, (newVal) => {
+watch(() => formStore.currentBlock, (newVal) => {
   const currentQuestion = answers.value.find(q => q.id === props.question[newVal].id);
   if (currentQuestion) {
     currentQuestion.value = props.question[newVal].value;
   }
 });
 
-watch(() => answers.value.active, (newVal) => {
+
+
+watch(() => formStore.currentQuestion, (newVal) => {
   const questionElement = document.getElementById(`question-${newVal}`);
   if (questionElement) {
     questionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -46,10 +48,10 @@ watch(() => answers.value.active, (newVal) => {
 
     <ScaleComponent
         v-for="(item, index) in question"
-        :key="index" :question="item"
-        v-model="answers"
+        :key="index"
+        :question="item"
         :id="`question-${item.id}`"
-        :active="item.id == answers.active"/>
+        :active="item.id == formStore.currentQuestion"/>
   </div>
 </template>
 
