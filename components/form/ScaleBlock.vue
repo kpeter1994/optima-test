@@ -19,11 +19,14 @@ const formStore = useFormStore();
 const answers = ref(props.question)
 
 watch(() => formStore.currentBlock, (newVal) => {
-  const currentQuestion = answers.value.find(q => q.id === props.question[newVal].id);
-  if (currentQuestion) {
-    currentQuestion.value = props.question[newVal].value;
+  if (newVal < props.question.length) {
+    const currentQuestion = answers.value.find(q => q.id === props.question[newVal].id);
+    if (currentQuestion) {
+      currentQuestion.value = props.question[newVal].value;
+    }
   }
 });
+
 
 
 

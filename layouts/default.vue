@@ -1,10 +1,10 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import NavComponent from "~/components/global/NavComponent.vue";
+</script>
 
 <template>
   <div class="bg-radial min-h-screen">
-    <div class="px-4 py-2">
-      <img class="mx-auto" src="/image/logo.svg" alt="Optima tesztek">
-    </div>
+    <NavComponent />
     <slot />
   </div>
 </template>

@@ -1,2 +1,8 @@
 @import 'primeicons/primeicons.css';
 
+
+:root {
+    --p-button-primary-hover-background: #000000; /* Állítsd az elsődleges színt feketére */
+    --p-primary-color-text: #ffffff; /* Ha szükséges, állítsd be az elsődleges szövegszínt is */
+    /* Egyéb színek felülírása, ha szükséges */
+}

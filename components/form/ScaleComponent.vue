@@ -38,7 +38,7 @@ const setAnswer = ( questionId: number, value: number) => {
 
 <template>
   <div class="mb-8" :class="active ? '' : 'opacity-30' ">
-    <p class="text-gray-700 mb-4 font-semibold ">{{question.id +'. '+ question.title}}</p>
+    <p class="text-gray-700 mb-4 font-semibold ">{{question.title}}</p>
 
     <div class="justify-between items-center font-semibold text-gray-700 gap-3">
 

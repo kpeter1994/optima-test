@@ -1,8 +1,30 @@
+import Aura from '@primevue/themes/aura';
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   css: ["@/assets/css/main.css"],
-  modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@nuxtjs/apollo", "@pinia/nuxt"],
+  modules: [
+      "@nuxtjs/tailwindcss",
+      "@nuxt/image",
+      "@nuxtjs/apollo",
+      "@pinia/nuxt",
+      "@primevue/nuxt-module"
+  ],
+
+  primevue: {
+      usePrimeVue: true,
+      options: {
+          theme: {
+              preset: Aura,
+              options: {
+                  prefix: 'p',
+                  darkModeSelector: 'system',
+                  cssLayer: false,
+              }
+          }
+      }
+  },
   apollo: {
         clients: {
             default: {

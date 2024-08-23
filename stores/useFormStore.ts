@@ -1,13 +1,22 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
+interface TestResult {
+    title: string;
+    totalScore: number;
+    percentage: number;
+    textResult: string;
+}
+
 export const useFormStore = defineStore('form', () => {
     // State
     const currentBlock = ref(0)
-    const form = ref({})
+    const form = ref<any[]>([])  // Initialize as an empty array
     const currentQuestion = ref(1)
     const isSendForm = ref(false)
-    const testResult = ref([])
+    const loading = ref(true)
+    const testResult = ref<TestResult[]>([])  // Define the type for testResult
+
 
     // Actions
     const nextBlock = () => {
@@ -46,9 +55,8 @@ export const useFormStore = defineStore('form', () => {
 
     const sendForm = () => {
 
-
-
         form.value.forEach((block: any) => {
+
 
             const totalScore = block.question.reduce((sum: number, item: any) => {
                 return sum + (item.value !== null ? Number(item.value) : 0);
@@ -77,9 +85,17 @@ export const useFormStore = defineStore('form', () => {
             }
 
             testResult.value.push(result);
-            isSendForm.value = true;
+
         });
 
+        isSendForm.value = true;
+        setTimeout(() => {
+            loading.value = false;
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // sima görgetés az oldal tetejére
+            });
+        }, 3000)
 
     }
 
@@ -89,12 +105,13 @@ export const useFormStore = defineStore('form', () => {
         currentQuestion,
         form,
         isSendForm,
+        loading,
+        testResult,
         nextBlock,
         previousBlock,
         setBlock,
         setForm,
         setQuestion,
         sendForm,
-        testResult
     }
 })
