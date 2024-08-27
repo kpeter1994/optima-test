@@ -8,8 +8,11 @@ const {data} = await useAsyncQuery(getQuestionsQuery)
 
 console.log(data)
 
+
+
 if (data.value) {
   formStore.setForm(data.value.test.data.attributes.element)
+  formStore.setTitle(data.value.test.data.attributes.title)
 }
 
 const componentsMap: { [key: string]: any } = {

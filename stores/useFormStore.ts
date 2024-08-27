@@ -12,10 +12,12 @@ export const useFormStore = defineStore('form', () => {
     // State
     const currentBlock = ref(0)
     const form = ref<any[]>([])  // Initialize as an empty array
+    const title = ref<string>('')
     const currentQuestion = ref(1)
     const isSendForm = ref(false)
     const loading = ref(true)
     const testResult = ref<TestResult[]>([])  // Define the type for testResult
+    const authStore = useAuthStore()
 
 
     // Actions
@@ -26,6 +28,10 @@ export const useFormStore = defineStore('form', () => {
             top: 0,
             behavior: 'smooth' // sima görgetés
         });
+    }
+
+    const setTitle = (titleValue: string) => {
+        title.value = titleValue
     }
 
     const previousBlock = () => {
@@ -64,29 +70,51 @@ export const useFormStore = defineStore('form', () => {
 
             const ArrayLength = block.question.length;
 
-            const getTextResult = (percentage: any) => {
+            const getTextResult = (percentage: number) => {
+                let result = '';
 
-                if (percentage < 20) {
-                   return block.rating.low
+                for (const item of block.rating2) {
+                    if (item.border >= percentage) {
+                        result = item.text;
+                        break;
+                    }
                 }
-                 if (percentage < 60) {
-                     return block.rating.medium
-                 }
 
-                return  block.rating.high
-
+                return result;
             }
+
 
             const result = {
                 title: block.title,
                 totalScore: totalScore,
-                percentage: totalScore / (ArrayLength * 7) * 100,
+                percentage: (totalScore) / (ArrayLength * 7) * 100,
                 textResult: getTextResult(totalScore / (ArrayLength * 7) * 100)
             }
 
             testResult.value.push(result);
 
         });
+
+        try {
+             useFetch('http://localhost:1337/api/test-results', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authStore.token}`
+                },
+                body: JSON.stringify({
+                    data: {
+                        owner: 20,
+                        title: title.value ?? null,
+                        user_email:  authStore.user ?? null,
+                        results: JSON.stringify(testResult.value), // Az összes eredményt egyszerre küldjük el
+                        textResults: "123" // Cseréld le a valódi textResults értékre
+                    }
+                }),
+            });
+        } catch (error) {
+            console.error("Hiba történt az adatok elküldése során:", error);
+        }
 
         isSendForm.value = true;
         setTimeout(() => {
@@ -107,11 +135,13 @@ export const useFormStore = defineStore('form', () => {
         isSendForm,
         loading,
         testResult,
+        title,
         nextBlock,
         previousBlock,
         setBlock,
         setForm,
         setQuestion,
         sendForm,
+        setTitle
     }
 })

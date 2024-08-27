@@ -10,9 +10,24 @@ const props = defineProps<{
 const emit = defineEmits(['update:modelValue']);
 
 // Az érték változásának kezelése
-const updateValue = (newValue: number) => {
-  emit('update:modelValue', newValue);
-};
+// const updateValue = (newValue: number) => {
+//   try {
+//     if (newValue !== null) {
+//       emit('update:modelValue', newValue);
+//     }
+//   } catch (e) {
+//     console.error('Error updating value:', e);
+//   }
+// };
+
+const computedValue = computed({
+  get: () => props.modelValue,
+  set: (newValue) => {
+    emit('update:modelValue', newValue);
+  }
+});
+
+
 </script>
 
 <template>
@@ -20,8 +35,8 @@ const updateValue = (newValue: number) => {
     <input type="radio"
            :name="name"
            :value="value"
-           :checked="modelValue === value"
-           @input="updateValue(value)">
+           :checked="computedValue === value"
+           @input="computedValue = value">
     <span class="checkmark relative">
       <i class="pi pi-check pi-check-icon"></i>
     </span>

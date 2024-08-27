@@ -2,37 +2,40 @@
 import RadioButton from "~/components/form/RadioButton.vue";
 
 const props = defineProps<{
-  active: {
-    type: Boolean | object;
-    default: false;
-  };
+  active: Boolean;
   question: {
     id: number;
     title: string;
-    subcategory: string | null;
+    category: string | null;
     value: number | null;
   }
 }>();
 
-const answers = defineModel()
+interface Question {
+  id: number;
+  title: string;
+  category: string | null;
+  value: number | null;
+}
+
+
 const formStore = useFormStore();
 
 const setAnswer = ( questionId: number, value: number) => {
-  const currentBlock = formStore.form[formStore.currentBlock];
+  try {
+    const currentBlock = formStore.form[formStore.currentBlock];
+    const question = currentBlock.question.find((q: Question) => q.id === questionId);
 
-  const question = currentBlock.question.find(q => q.id === questionId);
-
-  if (question) {
-    question.value = value;
-    formStore.setQuestion(questionId);
+    if (question) {
+      question.value = value;
+      formStore.setQuestion(questionId);
+    }
+    formStore.setQuestion(Number(questionId) + 1);
+  } catch (e) {
+    console.error("Error setting answer:",e);
   }
-  formStore.setQuestion(Number(questionId) + 1);
-}
 
-// const setAnswer = ( index: number, value: number) => {
-//   answers.value[index - 1].value = value;
-//   answers.value.active = Number(index) + 1;
-// }
+}
 
 </script>
 

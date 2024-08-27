@@ -3,17 +3,17 @@ import gql from 'graphql-tag';
 
 export const getQuestionsQuery  = gql`
 query Questions{
-  test(id:3){
+  test(id:5){
   \tdata{
     attributes{
       title
+      slug
       element{
         ... on ComponentFormScale{
-          __typename
           id
           title
           category 
-          rating{low medium high}
+          rating2{border text}
           question{id title subCategory value}
         }
       }

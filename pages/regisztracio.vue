@@ -1,15 +1,17 @@
 <script setup lang="ts">
+import {useAuthStore} from "~/stores/useAuthStore";
+
+const authStore = useAuthStore()
+
+const router = useRouter()
 
 const user = ref({
-    email: null,
-    password: null,
-    rePassword: null
-  });
+  email: null,
+  password: null,
+  rePassword: null
+});
 
 const errorMessage = ref<string | null>(null)
-
-const open = ref(false);
-
 const submit = () => {
 
   errorMessage.value = null; // Töröljük az előző hibaüzenetet
@@ -21,12 +23,12 @@ const submit = () => {
 
   try {
 
-    const email = user.value.email ?? 'default@example.com'; // Ha az email null, akkor használjunk egy alapértelmezett értéket
+    const email = user.value.email ?? null
 
     const { data, error } =  useFetch('http://localhost:1337/api/auth/local/register', {
       method: 'POST',
       body: JSON.stringify({
-        username: user.value.email.split('@')[0] ?? null, // Vagy bármilyen felhasználónév generálás
+        username: user.value.email.split('@')[0],
         email: user.value.email,
         password: user.value.password
       }),
@@ -42,12 +44,9 @@ const submit = () => {
       return;
     }
 
-    // console.log('Regisztráció sikeres:', data.value);
+    router.push('/bejelentkezes')
 
-    // alert('Regisztráció sikeres!');
-    open.value = false;
-    // Itt átirányíthatod a felhasználót, például a bejelentkezési oldalra
-    // this.$router.push('/login');
+
   } catch (err) {
     console.error('Hiba történt a regisztráció során:', err);
     alert('Hiba történt a regisztráció során.');
@@ -59,12 +58,9 @@ const submit = () => {
 </script>
 
 <template>
-  <Button  severity="secondary" class="w-full" @click="open = true">
-    <i class="pi pi-user"></i>
-    Regisztráció
-  </Button>
 
-  <div v-if="open" class="w-full h-screen bg-neutral-800 bg-opacity-40 backdrop-blur-sm fixed top-0 left-0 right-0 bottom-0 z-10 ">
+
+  <div class="w-full">
     <div class="max-w-xl mx-auto p-8 lg:p-20 bg-white mt-20 rounded-3xl">
 
       <div class="mb-12">
