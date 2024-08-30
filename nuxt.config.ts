@@ -9,9 +9,15 @@ export default defineNuxtConfig({
       "@nuxt/image",
       "@nuxtjs/apollo",
       "@pinia/nuxt",
-      "@primevue/nuxt-module"
+      "@primevue/nuxt-module",
+      "@nuxt/image"
   ],
 
+  image: {
+      strapi: {
+          baseURL: 'http://localhost:1337/'
+      }
+  },
   primevue: {
       usePrimeVue: true,
       options: {

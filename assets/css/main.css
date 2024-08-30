@@ -6,3 +6,19 @@
     --p-primary-color-text: #ffffff; /* Ha szükséges, állítsd be az elsődleges szövegszínt is */
     /* Egyéb színek felülírása, ha szükséges */
 }
+
+.section-padding{
+    @apply py-6 lg:py-20;
+}
+
+.bg-radial{
+    background: radial-gradient(circle, #0B6E7A, #11263B);
+}
+
+.section-title{
+    @apply font-bold text-2xl lg:text-5xl mb-1.5 lg:mb-3;
+}
+
+.section-lead{
+    @apply text-base lg:text-lg mb-3 lg:mb-6;
+}

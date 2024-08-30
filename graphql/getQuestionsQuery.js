@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 
 
 export const getQuestionsQuery  = gql`
-query Questions{
-  test(id:5){
+query Questions($slug: String!) {
+  tests(filters: {slug: {eq: $slug }} ){
   \tdata{
     attributes{
       title
