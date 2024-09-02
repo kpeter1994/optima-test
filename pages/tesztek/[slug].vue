@@ -10,8 +10,6 @@ const formStore = useFormStore()
 
 const {data} = await useAsyncQuery(getQuestionsQuery, {slug: route.params.slug })
 
-console.log(data)
-
 
 if (data.value) {
   formStore.setForm(data.value.tests.data[0].attributes.element)

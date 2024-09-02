@@ -56,7 +56,7 @@ export const useFormStore = defineStore('form', () => {
     }
 
     const setForm = (formValue: any) => {
-        form.value = formValue
+        form.value = JSON.parse(JSON.stringify(formValue));
     }
 
     const sendForm = () => {

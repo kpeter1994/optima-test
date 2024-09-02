@@ -9,25 +9,31 @@ const props = defineProps<{
   question: {
     id: number;
     title: string;
-    value: number | null;
   }[];
 }>();
 
 const formStore = useFormStore();
 
 
-const answers = ref(props.question)
+const answers = reactive(
+    props.question.map(q => ({
+      ...q,
+      value: null // Alapértelmezett value érték hozzáadása
+    }))
+);
+
+// onMounted(() => {
+//   formStore.setForm(answers);
+// });
 
 watch(() => formStore.currentBlock, (newVal) => {
   if (newVal < props.question.length) {
-    const currentQuestion = answers.value.find(q => q.id === props.question[newVal].id);
+    const currentQuestion = answers.find(q => q.id === props.question[newVal].id);
     if (currentQuestion) {
-      currentQuestion.value = props.question[newVal].value;
+      currentQuestion.value = currentQuestion.value || null;
     }
   }
 });
-
-
 
 
 watch(() => formStore.currentQuestion, (newVal) => {

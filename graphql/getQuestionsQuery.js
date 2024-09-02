@@ -14,7 +14,7 @@ query Questions($slug: String!) {
           title
           category 
           rating2{border text}
-          question{id title subCategory value}
+          question{id title subCategory}
         }
       }
     \t}
