@@ -33,6 +33,7 @@ interface TestResultsData {
 }
 
 const {data} = await  useAsyncQuery<TestResultsData>(getResultsQuery)
+
 console.log(data)
 
 
@@ -59,7 +60,7 @@ console.log(parsedResults.value);
 
 <template>
 
-  <section class="py-6 lg:px-4">
+  <section class="py-6 lg:px-4 bg-radial">
     <div class="container mx-auto">
       <h1 class="text-2xl lg:text-4xl text-center font-extrabold text-white tracking-wider mb-6">Teszek</h1>
       <div class="p-6 lg:p-20 bg-slate-100 lg:rounded-3xl">

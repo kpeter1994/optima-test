@@ -11,7 +11,7 @@ query GlobalDataQuery{
             attributes{alternativeText url}
           }
         }
-        nav{id name href}
+        nav{id name href authRequire}
         social{id name href image{data{attributes{alternativeText url}}}}
       }
     }

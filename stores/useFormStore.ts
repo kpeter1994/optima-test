@@ -1,13 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-interface TestResult {
-    title: string;
-    totalScore: number;
-    percentage: number;
-    textResult: string;
-}
-
 export const useFormStore = defineStore('form', () => {
     // State
     const currentBlock = ref(0)
@@ -108,7 +101,6 @@ export const useFormStore = defineStore('form', () => {
                         title: title.value ?? null,
                         user_email:  authStore.user ?? null,
                         results: JSON.stringify(testResult.value), // Az összes eredményt egyszerre küldjük el
-                        textResults: "123" // Cseréld le a valódi textResults értékre
                     }
                 }),
             });
